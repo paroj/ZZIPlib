@@ -54,6 +54,10 @@ configure_file ( ${CMAKE_CURRENT_SOURCE_DIR}/_config.h.cmake ${CMAKE_CURRENT_BIN
 find_package ( ZLIB REQUIRED )
 include_directories ( ${ZLIB_INCLUDE_DIR} )
 
+if(UNIX)
+    add_definitions(-fPIC)
+endif()
+
 # libzlib library
 add_definitions ( -DHAVE_CONFIG_H )
 include_directories (${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
