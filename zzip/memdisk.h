@@ -66,6 +66,7 @@ struct _zzip_mem_entry {
     int              zz_filetype;  /* (from "z_filetype") */
     char*            zz_comment;   /* zero-terminated (from "comment") */
     ZZIP_EXTRA_BLOCK* zz_ext[3];   /* terminated by null in z_datatype */
+    int              zz_extlen[3]; /* length of zz_ext[i] in bytes */
 };                                 /* the extra blocks are NOT converted */
 
 #define _zzip_mem_disk_findfirst(_d_) ((_d_)->list)

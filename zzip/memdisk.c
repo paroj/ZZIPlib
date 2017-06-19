@@ -201,6 +201,7 @@ zzip_mem_entry_new(ZZIP_DISK * disk, ZZIP_DISK_ENTRY * entry)
         {
             void *mem = malloc(ext1 + 2);
             item->zz_ext[1] = mem;
+	    item->zz_extlen[1] = ext1 + 2;
             memcpy(mem, ptr1, ext1);
             ((char *) (mem))[ext1 + 0] = 0;
             ((char *) (mem))[ext1 + 1] = 0;
@@ -209,6 +210,7 @@ zzip_mem_entry_new(ZZIP_DISK * disk, ZZIP_DISK_ENTRY * entry)
         {
             void *mem = malloc(ext2 + 2);
             item->zz_ext[2] = mem;
+	    item->zz_extlen[2] = ext2 + 2;
             memcpy(mem, ptr2, ext2);
             ((char *) (mem))[ext2 + 0] = 0;
             ((char *) (mem))[ext2 + 1] = 0;
@@ -245,8 +247,10 @@ zzip_mem_entry_extra_block(ZZIP_MEM_ENTRY * entry, short datatype)
     while (1)
     {
         ZZIP_EXTRA_BLOCK *ext = entry->zz_ext[i];
-        if (ext)
+        if (ext && (entry->zz_extlen[i] >= zzip_extra_block_headerlength))
         {
+	    char *endblock = (char *)ext + entry->zz_extlen[i];
+
             while (*(short *) (ext->z_datatype))
             {
                 if (datatype == zzip_extra_block_get_datatype(ext))
@@ -257,6 +261,10 @@ zzip_mem_entry_extra_block(ZZIP_MEM_ENTRY * entry, short datatype)
                 e += zzip_extra_block_headerlength;
                 e += zzip_extra_block_get_datasize(ext);
                 ext = (void *) e;
+		if (e >= endblock)
+		{
+		    break;
+		}
                 ____;
             }
         }
