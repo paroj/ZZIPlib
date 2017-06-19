@@ -289,6 +289,8 @@ zzip_disk_entry_to_file_header(ZZIP_DISK * disk, struct zzip_disk_entry *entry)
         (disk->buffer + zzip_disk_entry_fileoffset(entry));
     if (disk->buffer > file_header || file_header >= disk->endbuf)
         return 0;
+    if (ZZIP_GET32(file_header) != ZZIP_FILE_HEADER_MAGIC)
+        return 0;
     return (struct zzip_file_header *) file_header;
 }
 
