@@ -300,7 +300,8 @@ zzip_entry_findfirst(FILE * disk)
                      * central directory was written directly before : */
                     root = mapoffs - rootsize;
                 }
-            } else if (zzip_disk64_trailer_check_magic(p))
+            } else if ((p + sizeof(struct zzip_disk64_trailer)) <= (buffer + mapsize)
+	            && zzip_disk64_trailer_check_magic(p))
             {
                 struct zzip_disk64_trailer *trailer =
                     (struct zzip_disk64_trailer *) p;
