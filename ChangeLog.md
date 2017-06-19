@@ -1,3 +1,13 @@
+2017-06-19 paroj <https://github.com/paroj>
+* prevent unzzipcat.c from trying to print a NULL name
+* fix CVE-2017-5981
+* fix CVE-2017-5979
+* fix CVE-2017-5978
+* fix CVE-2017-5976
+* fix CVE-2017-5975
+* fix CVE-2017-5974
+* allow linking into shared libraries on UNIX
+
 2015-12-28 paroj <https://github.com/paroj>
 * replace Makefile and MSVC based build systems with CMake
 
