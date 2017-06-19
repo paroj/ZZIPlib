@@ -55,7 +55,15 @@ find_package ( ZLIB REQUIRED )
 include_directories ( ${ZLIB_INCLUDE_DIR} )
 
 if(UNIX)
-    add_definitions(-fPIC)
+    add_definitions(-fPIC
+        -Wpointer-arith
+        -Wsign-compare
+        -Wmissing-declarations
+        -Wdeclaration-after-statement
+        -Werror-implicit-function-declaration
+        -Wstrict-aliasing
+        -Warray-bounds
+    )
 endif()
 
 # libzlib library
@@ -82,6 +90,12 @@ set(ZZIPLIB_HDRS
     ${CMAKE_CURRENT_BINARY_DIR}/zzip/_config.h)
 add_library(zzip ${ZZIPLIB_SRCS} ${DEF_FILE} )
 target_link_libraries(zzip ${ZLIB_LIBRARIES} )
+
+add_library(zzipmmapped zzip/mmapped.c zzip/memdisk.c zzip/fetch.c )
+target_link_libraries(zzipmmapped ${ZLIB_LIBRARIES} )
+
+add_library(zzipfseeko zzip/fseeko.c zzip/fetch.c )
+target_link_libraries(zzipfseeko ${ZLIB_LIBRARIES} )
 
 # install
 install(FILES ${ZZIPLIB_HDRS} DESTINATION include/zzip )
