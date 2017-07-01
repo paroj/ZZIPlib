@@ -91,8 +91,10 @@ set(ZZIPLIB_HDRS
 add_library(zzip ${ZZIPLIB_SRCS} ${DEF_FILE} )
 target_link_libraries(zzip ${ZLIB_LIBRARIES} )
 
+if(NOT MSVC) # FIXME: syntax error
 add_library(zzipmmapped zzip/mmapped.c zzip/memdisk.c zzip/fetch.c )
 target_link_libraries(zzipmmapped ${ZLIB_LIBRARIES} )
+endif()
 
 add_library(zzipfseeko zzip/fseeko.c zzip/fetch.c )
 target_link_libraries(zzipfseeko ${ZLIB_LIBRARIES} )
